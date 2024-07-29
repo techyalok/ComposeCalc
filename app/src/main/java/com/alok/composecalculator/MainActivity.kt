@@ -76,6 +76,7 @@ fun CalculatorApp(
                 color = Color.White
             )
 //1st Row
+            // Comment
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
             ) {
