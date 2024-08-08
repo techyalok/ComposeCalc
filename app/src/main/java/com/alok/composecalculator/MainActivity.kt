@@ -38,11 +38,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeCalculatorTheme {
-                CalculatorApp (modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = MediumGray)
-                    .padding(16.dp),
-                    onAction = {}//viewModel::onAction
+                val viewModel = viewModel<CalculatorViewModel>()
+                val state = viewModel.state
+                val buttonSpacing = 8.dp
+                CalculatorApp (
+                    onAction = viewModel::onAction,
+                    state =  state,
+                    buttonSpacing = buttonSpacing,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = MediumGray)
+                        .padding(16.dp)
                 )
             }
         }
@@ -53,11 +59,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun CalculatorApp(
     modifier: Modifier = Modifier,
-    onAction: (CalculatorAction) -> Unit
+    onAction: (CalculatorAction) -> Unit,
+    state: CalculatorState,
+    buttonSpacing: Dp
 ){
-    val viewModel = viewModel<CalculatorViewModel>()
-    val state = viewModel.state
-    val buttonSpacing = 8.dp;
 
     Box(modifier = modifier) {
         Column(modifier = Modifier
@@ -65,15 +70,15 @@ fun CalculatorApp(
             .align(Alignment.BottomCenter),
             verticalArrangement = Arrangement.spacedBy(buttonSpacing)
         ) {
-            Text(text = state.number1 + (state.operation ?: "") + state.number2,
+            Text(text = state.number1 + (state.operation?.symbol ?: "") + state.number2,
                 textAlign = TextAlign.End,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 32.dp),
                 fontWeight = FontWeight.Light,
-                maxLines = 2,
                 fontSize = 80.sp,
-                color = Color.White
+                color = Color.White,
+                maxLines = 2
             )
 //1st Row
             // Comment
@@ -199,7 +204,7 @@ fun CalculatorApp(
                         .background(color = Color.DarkGray)
                         .aspectRatio(1f)
                         .weight(1f),
-                    onClick = {onAction(CalculatorAction.Number(7))}
+                    onClick = {onAction(CalculatorAction.Number(1))}
                 )
 
                 CalculatorButton(
@@ -208,7 +213,7 @@ fun CalculatorApp(
                         .background(color = Color.DarkGray)
                         .aspectRatio(1f)
                         .weight(1f),
-                    onClick = {onAction(CalculatorAction.Number(8))}
+                    onClick = {onAction(CalculatorAction.Number(2))}
                 )
 
                 CalculatorButton(
@@ -217,7 +222,7 @@ fun CalculatorApp(
                         .background(color = Color.DarkGray)
                         .aspectRatio(1f)
                         .weight(1f),
-                    onClick = {onAction(CalculatorAction.Number(9))}
+                    onClick = {onAction(CalculatorAction.Number(3))}
                 )
 
                 CalculatorButton(
@@ -271,6 +276,6 @@ fun CalculatorApp(
 @Preview()
 @Composable
 fun PreviewCal1(){
-    CalculatorApp {
-    }
+//    CalculatorApp {
+//    }
 }
