@@ -3,6 +3,7 @@ Jetpack Compose based Calculator
 - MVVM Architecture
 - Jetpack Compose
 - Kotlin
+- State Management
 
 ### Screenshots:
 
